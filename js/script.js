@@ -145,3 +145,9 @@ tabButtons.forEach(btn => {
     }
   });
 });
+
+
+searchBtn.addEventListener("click", performSearch);
+searchInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") performSearch();
+});
