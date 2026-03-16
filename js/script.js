@@ -151,3 +151,34 @@ searchBtn.addEventListener("click", performSearch);
 searchInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") performSearch();
 });
+
+async function performSearch() {
+  const query = searchInput.value.trim();
+  if (!query) {
+   
+    if (currentTab === "all") renderIssues(allIssues);
+    else if (currentTab === "open") renderIssues(openIssues);
+    else if (currentTab === "closed") renderIssues(closedIssues);
+    return;
+  }
+
+  loading.classList.remove("hidden");
+  issuesGrid.innerHTML = "";
+
+  try {
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${encodeURIComponent(query)}`);
+    const data = await res.json();
+
+    if (data.status === "success") {
+      renderIssues(data.data || []);
+      updateCount(data.total || data.data?.length || 0);
+    } else {
+      issuesGrid.innerHTML = "<p style='text-align:center;color:red'>Search failed</p>";
+    }
+  } catch (err) {
+    console.error("Search error:", err);
+    issuesGrid.innerHTML = "<p style='text-align:center;color:red'>Search error occurred</p>";
+  } finally {
+    loading.classList.add("hidden");
+  }
+}
