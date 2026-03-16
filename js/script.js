@@ -103,3 +103,45 @@ function renderIssues(issues) {
     issuesGrid.appendChild(card);
   });
 }
+
+function showModal(issue) {
+  document.getElementById("modal-title").textContent = issue.title || "No Title";
+  document.getElementById("modal-description").textContent = issue.description || "No description available.";
+  document.getElementById("modal-status").textContent = (issue.status || "unknown").toUpperCase();
+  document.getElementById("modal-priority").textContent = (issue.priority || "N/A").toUpperCase();
+  document.getElementById("modal-author").textContent = issue.author || "Unknown";
+  document.getElementById("modal-assignee").textContent = issue.assignee || "Unassigned";
+  document.getElementById("modal-labels").textContent = (issue.labels || []).join(", ") || "None";
+  document.getElementById("modal-created").textContent = issue.createdAt 
+    ? new Date(issue.createdAt).toLocaleString() 
+    : "N/A";
+
+  modal.classList.remove("hidden");
+}
+
+
+closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
+window.addEventListener("click", (e) => {
+  if (e.target === modal) modal.classList.add("hidden");
+});
+
+
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    tabButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    currentTab = btn.dataset.tab;
+
+    if (currentTab === "all") {
+      renderIssues(allIssues);
+      updateCount(allIssues.length);
+    } else if (currentTab === "open") {
+      renderIssues(openIssues);
+      updateCount(openIssues.length);
+    } else if (currentTab === "closed") {
+      renderIssues(closedIssues);
+      updateCount(closedIssues.length);
+    }
+  });
+});
