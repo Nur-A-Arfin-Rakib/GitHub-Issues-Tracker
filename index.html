@@ -38,3 +38,64 @@
       </div>
     </div>
   </div>
+  <div id="main-page" class="hidden">
+    <nav class="navbar">
+      <div class="logo-container">
+        <img src="assets/github-logo.png" alt="GitHub Logo" class="nav-logo">
+        <span>GitHub Issues Tracker</span>
+      </div>
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search issues..." />
+        <button id="search-btn">Search</button>
+      </div>
+    </nav>
+     <div class="container">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="all">All</button>
+        <button class="tab-btn" data-tab="open">Open</button>
+        <button class="tab-btn" data-tab="closed">Closed</button>
+      </div>
+
+      <div class="issues-header">
+  <div class="issues-top-row">
+    <div class="issues-title">
+      <span class="issue-icon"><img src="assets/Aperture.png" alt=""></span>
+      <span id="issue-count">0</span> Issues
+    </div>
+    <div class="status-indicator">
+      <span class="open-dot"></span> Open
+      <span class="closed-dot"></span> Closed
+    </div>
+  </div>
+  
+  <p>Track and manage your project issues</p>
+</div>
+
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Loading issues...</p>
+      </div>
+
+      <div id="issues-grid" class="issues-grid"></div>
+    </div>
+  </div>
+   
+  <div id="issue-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn">×</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-description"></p>
+      <div class="modal-info">
+        <p><strong>Status:</strong> <span id="modal-status"></span></p>
+        <p><strong>Priority:</strong> <span id="modal-priority"></span></p>
+        <p><strong>Author:</strong> <span id="modal-author"></span></p>
+        <p><strong>Assignee:</strong> <span id="modal-assignee"></span></p>
+        <p><strong>Labels:</strong> <span id="modal-labels"></span></p>
+        <p><strong>Created:</strong> <span id="modal-created"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
