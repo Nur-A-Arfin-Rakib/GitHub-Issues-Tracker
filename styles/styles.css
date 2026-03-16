@@ -84,3 +84,22 @@ small { color: #586069; font-size: 12px; }
 }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+.tabs {
+  display: flex;
+  margin: 24px 0 16px 0;
+}
+.tab-btn {
+  padding: 10px 20px;
+  background: #f6f8fa;
+  border: 1px solid #d1d5da;
+  border-right: none;
+  cursor: pointer;
+}
+.tab-btn:last-child { border-right: 1px solid #d1d5da; }
+.tab-btn.active {
+  background: white;
+  border-bottom: 2px solid #0366d6;
+  font-weight: bold;
+}
+

@@ -23,15 +23,83 @@ const closeBtn = document.querySelector(".close-btn");
 
 
 loginForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-  if (username === DEFAULT_USER && password === DEFAULT_PASS) {
-    loginPage.classList.add("hidden");
-    mainPage.classList.remove("hidden");
-    loadAllIssues(); 
-  } else {
-    alert("Invalid credentials! Use: admin / admin123");
-  }
+    if (username === DEFAULT_USER && password === DEFAULT_PASS) {
+        loginPage.classList.add("hidden");
+        mainPage.classList.remove("hidden");
+        loadAllIssues();
+    } else {
+        alert("Invalid credentials! Use: admin / admin123");
+    }
 });
+
+async function loadAllIssues() {
+    loading.classList.remove("hidden");
+    issuesGrid.innerHTML = "";
+
+    try {
+        const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
+        const data = await res.json();
+
+        if (data.status === "success") {
+            allIssues = data.data || [];
+
+            openIssues = allIssues.filter(issue => issue.status?.toLowerCase() === "open");
+            closedIssues = allIssues.filter(issue => issue.status?.toLowerCase() === "closed");
+
+
+            renderIssues(allIssues);
+            updateCount(allIssues.length);
+        } else {
+            issuesGrid.innerHTML = "<p style='text-align:center;color:red'>API returned error</p>";
+        }
+    } catch (err) {
+        console.error("Fetch error:", err);
+        issuesGrid.innerHTML = "<p style='text-align:center;color:red'>Failed to load issues. Check internet or console.</p>";
+    } finally {
+        loading.classList.add("hidden");
+    }
+}
+
+
+function updateCount(count) {
+  issueCountEl.textContent = count || 0;
+}
+
+
+function renderIssues(issues) {
+  issuesGrid.innerHTML = "";
+
+  if (issues.length === 0) {
+    issuesGrid.innerHTML = "<p style='text-align:center; color:#586069; padding:40px;'>No issues found</p>";
+    return;
+  }
+
+  issues.forEach(issue => {
+    const card = document.createElement("div");
+    card.className = `issue-card ${issue.status?.toLowerCase() === "open" ? "open-border" : "closed-border"}`;
+    
+    const shortDesc = issue.description?.length > 120 
+      ? issue.description.substring(0, 120) + "..." 
+      : issue.description || "No description";
+
+    card.innerHTML = `
+      <div class="card-content">
+        <div class="card-title">${issue.title || "Untitled Issue"}</div>
+        <div class="card-desc">${shortDesc}</div>
+        <div class="card-meta">
+          <div>
+            ${(issue.labels || []).map(label => `<span class="label">${label}</span>`).join("")}
+          </div>
+          <div>${issue.author || "Unknown"} • ${issue.createdAt ? new Date(issue.createdAt).toLocaleDateString() : "N/A"}</div>
+        </div>
+      </div>
+    `;
+
+    card.addEventListener("click", () => showModal(issue));
+    issuesGrid.appendChild(card);
+  });
+}
