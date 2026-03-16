@@ -23,45 +23,47 @@ const closeBtn = document.querySelector(".close-btn");
 
 
 loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
+  e.preventDefault();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-    if (username === DEFAULT_USER && password === DEFAULT_PASS) {
-        loginPage.classList.add("hidden");
-        mainPage.classList.remove("hidden");
-        loadAllIssues();
-    } else {
-        alert("Invalid credentials! Use: admin / admin123");
-    }
+  if (username === DEFAULT_USER && password === DEFAULT_PASS) {
+    loginPage.classList.add("hidden");
+    mainPage.classList.remove("hidden");
+    loadAllIssues(); 
+  } else {
+    alert("Invalid credentials! Use: admin / admin123");
+  }
 });
 
+
 async function loadAllIssues() {
-    loading.classList.remove("hidden");
-    issuesGrid.innerHTML = "";
+  loading.classList.remove("hidden");
+  issuesGrid.innerHTML = "";
 
-    try {
-        const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
-        const data = await res.json();
+  try {
+    const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
+    const data = await res.json();
 
-        if (data.status === "success") {
-            allIssues = data.data || [];
+    if (data.status === "success") {
+      allIssues = data.data || [];
 
-            openIssues = allIssues.filter(issue => issue.status?.toLowerCase() === "open");
-            closedIssues = allIssues.filter(issue => issue.status?.toLowerCase() === "closed");
+     
+      openIssues = allIssues.filter(issue => issue.status?.toLowerCase() === "open");
+      closedIssues = allIssues.filter(issue => issue.status?.toLowerCase() === "closed");
 
-
-            renderIssues(allIssues);
-            updateCount(allIssues.length);
-        } else {
-            issuesGrid.innerHTML = "<p style='text-align:center;color:red'>API returned error</p>";
-        }
-    } catch (err) {
-        console.error("Fetch error:", err);
-        issuesGrid.innerHTML = "<p style='text-align:center;color:red'>Failed to load issues. Check internet or console.</p>";
-    } finally {
-        loading.classList.add("hidden");
+      
+      renderIssues(allIssues);
+      updateCount(allIssues.length);
+    } else {
+      issuesGrid.innerHTML = "<p style='text-align:center;color:red'>API returned error</p>";
     }
+  } catch (err) {
+    console.error("Fetch error:", err);
+    issuesGrid.innerHTML = "<p style='text-align:center;color:red'>Failed to load issues. Check internet or console.</p>";
+  } finally {
+    loading.classList.add("hidden");
+  }
 }
 
 
@@ -103,6 +105,7 @@ function renderIssues(issues) {
     issuesGrid.appendChild(card);
   });
 }
+
 
 function showModal(issue) {
   document.getElementById("modal-title").textContent = issue.title || "No Title";
@@ -155,7 +158,7 @@ searchInput.addEventListener("keypress", (e) => {
 async function performSearch() {
   const query = searchInput.value.trim();
   if (!query) {
-   
+    
     if (currentTab === "all") renderIssues(allIssues);
     else if (currentTab === "open") renderIssues(openIssues);
     else if (currentTab === "closed") renderIssues(closedIssues);

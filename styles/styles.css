@@ -56,6 +56,8 @@ small { color: #586069; font-size: 12px; }
 .btn-signin:hover { background: #2c974b; }
 
 .demo-credentials { margin-top: 24px; font-size: 14px; color: #586069; }
+
+
 .navbar {
   background:white;
   color: black;
@@ -85,6 +87,7 @@ small { color: #586069; font-size: 12px; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
+
 .tabs {
   display: flex;
   margin: 24px 0 16px 0;
@@ -103,6 +106,7 @@ small { color: #586069; font-size: 12px; }
   font-weight: bold;
 }
 
+
 .issues-header {
   margin: 24px 0 32px 0;
   text-align: left;
@@ -113,7 +117,7 @@ small { color: #586069; font-size: 12px; }
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;  
   gap: 16px;
 }
 
@@ -133,11 +137,12 @@ small { color: #586069; font-size: 12px; }
 .status-indicator {
   display: flex;
   align-items: center;
-  gap: 20px;          
+  gap: 20px;         
   font-size: 16px;
   color: #586069;
   white-space: nowrap; 
 }
+
 .open-dot, .closed-dot {
   display: inline-block;
   width: 12px;
@@ -167,3 +172,116 @@ small { color: #586069; font-size: 12px; }
 }
 .open-dot { background: #28a745; }
 .closed-dot { background: #6f42c1; }
+
+
+.loading { text-align: center; padding: 80px 0; }
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid #e1e4e8;
+  border-top: 6px solid #0366d6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+
+.issues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.issue-card {
+  background: white;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.issue-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+
+.open-border { border-top: 4px solid #28a745; }
+.closed-border { border-top: 4px solid #6f42c1; }
+
+.card-content { padding: 16px; }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.priority-badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+.priority-badge.high { background: #d73a49; }
+.priority-badge.medium { background: #fbca04; color: #000; }
+.priority-badge.low { background: #2ea44f; }
+
+.card-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.card-desc {
+  font-size: 14px;
+  color: #586069;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.card-meta { font-size: 13px; color: #586069; }
+
+.labels { margin-bottom: 8px; }
+.label {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-right: 6px;
+  background: #e1e4e8;
+}
+.label.bug { background: #d73a49; color: white; }
+.label["help-wanted"] { background: #0e8a16; color: white; }
+
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 32px;
+  cursor: pointer;
+  color: #586069;
+}
+
+
+@media (max-width: 768px) {
+  .issues-grid { grid-template-columns: 1fr; }
+  .navbar { flex-direction: column; gap: 12px; }
+  .search-container { width: 100%; }
+  #search-input, #search-btn { width: 100%; border-radius: 6px; margin-bottom: 8px; }
+}
